@@ -4,7 +4,7 @@
 #define _TEST_APP
 
 #include "ofMain.h"
-#include "../ofxASR/src/ofxASR.h"
+#include "../ofxASR/src/ofxSphinxASR.h"
 
 class testApp : public ofBaseApp {
 

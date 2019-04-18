@@ -13,6 +13,6 @@ My project idea is to create a flashcard-based language learning tool -- specifi
 
 <h4> Libraries: </h4>
 
+* I plan on using the [Speech-to-text API from Microsoft](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/rest-speech-to-text#http-status-codes) to recognize speech. Then, I will use [ofxJSON](https://github.com/jeffcrouse/ofxJSON) to parse the JSON returned by the API.
 * I will use OpenFrameworks to create a windows application (the UI) for this project. More specifically, I will use the OpenFrameworks
 [Graphics Library](https://openframeworks.cc/documentation/graphics/) to create the flashcards.
-* [Speech Recognition oF Add-On](https://github.com/kitschpatrol/ofxASR)

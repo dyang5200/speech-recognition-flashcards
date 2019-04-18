@@ -3,6 +3,7 @@
 #include <curl/curl.h>
 #include <iostream>
 #include <string>
+#include <ofxJSON\src\ofxJSON.h>
 
 // Saves json as a string
 size_t CurlWrite_CallbackFunc_String(void* contents, size_t size, size_t nmemb, std::string* s) {
@@ -18,17 +19,16 @@ size_t CurlWrite_CallbackFunc_String(void* contents, size_t size, size_t nmemb, 
 
 std::string SendCurlRequests(CURL *curl, std::string audio_as_str, std::string read_output) {
 	if (curl) {
-		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_easy_setopt(curl, CURLOPT_URL, "https://centralus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed");
+		curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, POST);
+		curl_easy_setopt(curl, CURLOPT_URL, CURL_URL);
 
 		struct curl_slist* headers = NULL;
-		headers = curl_slist_append(headers, "Postman-Token: 8256ce1b-92fd-41fc-aedb-0ff21c688bf6");
-		headers = curl_slist_append(headers, "cache-control: no-cache");
-		headers = curl_slist_append(headers, "Expect: 200-ok");
-		headers = curl_slist_append(headers, "Host: westus.stt.speech.microsoft.com");
-		headers = curl_slist_append(headers, "Ocp-Apim-Subscription-Key: 6a80416fd0ca4d35ac24a5bac46ab109");
-		headers = curl_slist_append(headers, "Accept: application/json;text/xml");
-		headers = curl_slist_append(headers, "Content-Type: audio/wav; codecs=audio/pcm; samplerate=16000");
+		headers = curl_slist_append(headers, CACHE_CONTROL_HEADER);
+		headers = curl_slist_append(headers, EXPECT_HEADER);
+		headers = curl_slist_append(headers, HOST_HEADER);
+		headers = curl_slist_append(headers, SUBSCRIPTION_KEY_HEADER);
+		headers = curl_slist_append(headers, ACCEPT_HEADER);
+		headers = curl_slist_append(headers, CONTENT_TYPE_HEADER);
 
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
@@ -49,38 +49,41 @@ std::string SendCurlRequests(CURL *curl, std::string audio_as_str, std::string r
 
 std::string ReadFile(std::string file_name, CURL* curl) {
 	std::string audio_as_str;
-
 	ifstream input_file(file_name, ios::binary);
 
 	if (input_file.is_open()) {
 		// Read file
 		std::string read_output((std::istreambuf_iterator<char>(input_file)), (
-			std::istreambuf_iterator<char>()));
+								 std::istreambuf_iterator<char>()));
 
 		audio_as_str = SendCurlRequests(curl, audio_as_str, read_output);
-	}
-	else {
+	} else {
 		std::cout << "Unable to open audio file." << endl;
 	}
-
 	return audio_as_str;
 }
 
+
 void ofApp::setup() {
 	CURL* curl = curl_easy_init();
-
-	std::string audio_as_str = ReadFile("C:\\Users\\danie\\Downloads\\gettysburg.wav", curl);
-
+	std::string audio_as_str = ReadFile(FILEPATH, curl);
+	
 	/* always cleanup */
 	curl_easy_cleanup(curl);
 
-	std::cout << audio_as_str << endl;
-	std::cout << "Program finished!" << endl;
+	//std::cout << audio_as_str << endl;
+
+	// Create new json object
+	ofxJSONElement audio_as_json;
+	bool success = audio_as_json.parse(audio_as_str);
+	cout << "SUCCESS PARSING JSON? " << success << endl << endl;
+
+	// Prints out recognized speech
+	std::string lexical = audio_as_json["NBest"][0]["Lexical"].asString();
+	cout << "Lexical: " << lexical << endl;
 }
 
-void ofApp::draw()
-{
+void ofApp::draw() {
     ofBackgroundGradient(ofColor::white, ofColor::black);
-
     ofDrawBitmapStringHighlight("See console for output.", ofPoint(30, 30));
 }

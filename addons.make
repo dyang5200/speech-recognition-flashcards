@@ -1,5 +1,6 @@
 ofxHTTP
 ofxIO
+ofxJSON
 ofxMediaType
 ofxNetworkUtils
 ofxPoco

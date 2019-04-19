@@ -17,8 +17,6 @@
 #define ACCEPT_HEADER "Accept: application/json;text/xml"
 #define CONTENT_TYPE_HEADER "Content-Type: audio/wav; codecs=audio/pcm; samplerate=16000"
 
-#define AUDIO_FILEPATH "C:\\Users\\danie\\Downloads\\preamble10.wav"
-
 class SpeechAnalyzer {
 public: 
 	// Saves json as a string
@@ -29,4 +27,7 @@ public:
 
 	// Reads in the audio file as a binary
 	std::string ReadFile(std::string file_name);
+
+	// Analyzes speech from an audio file
+	std::string AnalyzeSpeech(std::string audio_filepath);
 };

@@ -66,7 +66,7 @@ std::string ReadFile(std::string file_name, CURL* curl) {
 
 void ofApp::setup() {
 	CURL* curl = curl_easy_init();
-	std::string audio_as_str = ReadFile(FILEPATH, curl);
+	std::string audio_as_str = ReadFile(AUDIO_FILEPATH, curl);
 	
 	/* always cleanup */
 	curl_easy_cleanup(curl);

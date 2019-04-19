@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ofMain.h"
-#include "ofxHTTP.h"
+#include "C:\Users\danie\of_v0.10.1_vs2017_release\libs\openFrameworks\ofMain.h"
+#include "C:\Users\danie\of_v0.10.1_vs2017_release\addons\ofxHTTP\src\ofxHTTP.h"
 
 #define CURL_URL "https://centralus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed"
 #define POST "POST"
@@ -12,7 +12,7 @@
 #define ACCEPT_HEADER "Accept: application/json;text/xml"
 #define CONTENT_TYPE_HEADER "Content-Type: audio/wav; codecs=audio/pcm; samplerate=16000"
 
-#define FILEPATH "C:\\Users\\danie\\Downloads\\preamble10.wav"
+#define AUDIO_FILEPATH "C:\\Users\\danie\\Downloads\\preamble10.wav"
 
 
 class ofApp: public ofBaseApp {

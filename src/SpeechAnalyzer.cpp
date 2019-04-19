@@ -74,4 +74,6 @@ std::string SpeechAnalyzer::AnalyzeSpeech(std::string audio_filepath) {
 
 	// Prints out recognized speech
 	std::string lexical = audio_as_json["NBest"][0]["Lexical"].asString();
+
+	return lexical;
 }

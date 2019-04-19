@@ -184,7 +184,6 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SpeechAnalyzer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxHTTP\libs\ofxHTTP\src\AuthScope.cpp" />
@@ -325,7 +324,6 @@
     <ClCompile Include="..\..\..\addons\ofxSSLManager\src\ofSSLManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SpeechAnalyzer.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxHTTP\src\ofxHTTP.h" />
     <ClInclude Include="..\..\..\addons\ofxHTTP\libs\ofxHTTP\include\ofx\HTTP\AbstractClientTypes.h" />

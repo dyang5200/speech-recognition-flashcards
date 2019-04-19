@@ -421,9 +421,6 @@
     <ClCompile Include="..\..\..\addons\ofxSSLManager\src\ofSSLManager.cpp">
       <Filter>addons\ofxSSLManager\src</Filter>
     </ClCompile>
-    <ClCompile Include="SpeechAnalyzer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -1183,9 +1180,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxSSLManager\src\ofSSLManager.h">
       <Filter>addons\ofxSSLManager\src</Filter>
-    </ClInclude>
-    <ClInclude Include="SpeechAnalyzer.h">
-      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

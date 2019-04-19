@@ -1,9 +1,4 @@
 #pragma once
-#include "C:\Users\danie\of_v0.10.1_vs2017_release\libs\openFrameworks\ofMain.h"
-#include "SpeechAnalyzer.h"
-
-#define AUDIO_FILEPATH "C:\\Users\\danie\\Downloads\\preamble10.wav"
-
 #include <stdio.h>
 #include <curl/curl.h>
 #include <iostream>
@@ -20,9 +15,20 @@
 #define ACCEPT_HEADER "Accept: application/json;text/xml"
 #define CONTENT_TYPE_HEADER "Content-Type: audio/wav; codecs=audio/pcm; samplerate=16000"
 
-class ofApp: public ofBaseApp {
-public:
-	ofApp() = default;
-    void setup() override;
-    void draw() override;
+class SpeechAnalyzer {
+public: 
+	// Default constructor
+	SpeechAnalyzer() = default;
+
+	// Saves json as a string
+	size_t CurlWrite_CallbackFunc_String(void* contents, size_t size, size_t nmemb, std::string* s);
+
+	// Sends curl requests to server
+	std::string SendCurlRequests(CURL* curl, std::string audio_as_str, std::string read_output);
+
+	// Reads in the audio file as a binary
+	std::string ReadFile(std::string file_name);
+
+	// Analyzes speech from an audio file
+	std::string AnalyzeSpeech(std::string audio_filepath);
 };

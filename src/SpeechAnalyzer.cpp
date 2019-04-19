@@ -65,11 +65,19 @@ std::string SpeechAnalyzer::ReadFile(std::string file_name) {
 std::string SpeechAnalyzer::AnalyzeSpeech(std::string audio_filepath) {
 	std::string audio_as_str = ReadFile(audio_filepath);
 
-	//std::cout << audio_as_str << endl;
+	std::cout << audio_as_str << endl;
+
+	// INCLUDE CATCHES FOR NOT A VALID AUDIO FILE AND NOT A VALID JSON
 
 	// Create new json object
 	ofxJSONElement audio_as_json;
 	bool success = audio_as_json.parse(audio_as_str);
+
+	// Return if the file does not contain a valid audio json.
+	if (!success) {
+		return;
+	}
+
 	cout << "SUCCESS PARSING JSON? " << success << endl << endl;
 
 	// Prints out recognized speech

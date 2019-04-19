@@ -61,6 +61,8 @@ std::string ReadFile(std::string file_name) {
 	else {
 		std::cout << "Unable to open audio file." << endl;
 	}
+
+	cout << "audio_as string: " << audio_as_str << endl;
 	return audio_as_str;
 }
 

@@ -1,10 +1,9 @@
 #pragma once
 #include <stdio.h>
-#include "ofMain.h"
-#include <stdio.h>
 #include <curl/curl.h>
 #include <iostream>
 #include <string>
+#include "ofMain.h"
 #include "ofxJSON.h"
 #include "ofxHTTP.h"
 

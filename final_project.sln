@@ -1,8 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "final_project", "final_project.vcxproj", "{7FD42DF7-442E-479A-BA76-D0022F99702A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openframeworksLib", "..\..\..\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj", "{5837595D-ACA9-485C-8E76-729040CE4B0B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "final_project_test", "..\final_project_test\final_project_test.vcxproj", "{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,8 +32,19 @@ Global
 		{5837595D-ACA9-485C-8E76-729040CE4B0B}.Release|Win32.Build.0 = Release|Win32
 		{5837595D-ACA9-485C-8E76-729040CE4B0B}.Release|x64.ActiveCfg = Release|x64
 		{5837595D-ACA9-485C-8E76-729040CE4B0B}.Release|x64.Build.0 = Release|x64
+		{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}.Debug|Win32.Build.0 = Debug|Win32
+		{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}.Debug|x64.ActiveCfg = Debug|x64
+		{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}.Debug|x64.Build.0 = Debug|x64
+		{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}.Release|Win32.ActiveCfg = Release|Win32
+		{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}.Release|Win32.Build.0 = Release|Win32
+		{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}.Release|x64.ActiveCfg = Release|x64
+		{9FE318DF-F5BA-44C8-8B26-AA765AA89AFC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87992732-74A1-4AC3-A91E-384FF9A09472}
 	EndGlobalSection
 EndGlobal

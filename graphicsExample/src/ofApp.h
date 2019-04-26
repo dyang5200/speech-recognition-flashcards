@@ -3,6 +3,11 @@
 #pragma once
 
 #include "ofMain.h"
+#include <vector>
+#include <string>
+
+using std::vector;
+using std::string;
 
 class ofApp : public ofBaseApp{
 	
@@ -11,10 +16,15 @@ class ofApp : public ofBaseApp{
 		ofSoundPlayer mySound;
 		ofFbo fbo;
 
+		bool drawNext = false;
+		int count = -1;
+		vector<string> flashcard_list = vector<string>();
+
 		void setup();
 		void update();
 		void draw();
 		
+		void setFlashcardList();
 		void drawNextCard();
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -26,12 +36,6 @@ class ofApp : public ofBaseApp{
 		void mouseExited(int x, int y);
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);		
-		
-		// variables used in the example
-		float 	counter;
-		bool	bSmooth;
-
-		bool drawNext = false;
+		void gotMessage(ofMessage msg);
 };
 	

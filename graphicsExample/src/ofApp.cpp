@@ -2,11 +2,20 @@
 
 #include "ofApp.h"
 
+void ofApp::setFlashcardList() {
+	flashcard_list.push_back("patrick");
+	flashcard_list.push_back("joseph");
+	flashcard_list.push_back("cynthia");
+	flashcard_list.push_back("kim");
+	flashcard_list.push_back("teju");
+	flashcard_list.push_back("zeba");
+}
 
-//--------------------------------------------------------------
 void ofApp::setup() {
 	//mySound.load("aahhh.wav");
 	//mySound.play();
+
+	setFlashcardList();
 
 	ofBackground(255,255,255);
 	fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA, 8);
@@ -17,8 +26,7 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	// update event slowly increments the counter variable
-	counter = counter + 0.033f;
+
 }
 
 //--------------------------------------------------------------
@@ -33,40 +41,37 @@ void ofApp::draw(){
 	ofDrawTriangle(900, 360, 925, 380, 900, 400);
 
 	if (drawNext) {
-		ofClear(255);
-		ofSetHexColor(0xAFEEEE);
-		ofDrawRectangle(100, 125, 800, 500);
-		ofSetHexColor(0x000000);
-		ofDrawBitmapString("CHANGED TEXT", 400, 390);
-		ofDrawTriangle(100, 360, 100, 400, 75, 380);
-		ofDrawTriangle(900, 360, 925, 380, 900, 400);
+		drawNextCard();
 	}
 }
 
 void ofApp::drawNextCard() {
-
-	//ofPushStyle();
-	//auto c = pickColor();
-	//ofSetColor(c);
-	//ofSetCircleResolution(resolution);
-	//if (!fill) {
-	//	ofSetLineWidth(ofMap(sin(ofGetElapsedTimef() * 2.0), -1, 1, 1, 10));
-	//	ofNoFill();
-	//}
-	//ofDrawCircle(center, glm::distance(center, toCenter));
-	//ofPopStyle();
+	ofClear(255);
+	ofSetHexColor(0xAFEEEE);
+	ofDrawRectangle(100, 125, 800, 500);
+	ofSetHexColor(0x000000);
+	ofDrawBitmapString(flashcard_list[count], 400, 390);
+	ofDrawTriangle(100, 360, 100, 400, 75, 380);
+	ofDrawTriangle(900, 360, 925, 380, 900, 400);
 }
 
 
 //--------------------------------------------------------------
-void ofApp::keyPressed  (int key){
+void ofApp::keyPressed(int key) {
 	// Background turns green if correct, red if incorrect
 	if (key == 'o') {
 		ofSetBackgroundColor(99, 242, 109);
 	} else if (key == 'x') {
 		ofSetBackgroundColor(253, 38, 38);
 	} else if (key == 'd') {
-		drawNext = true;
+		if (count == -1) {
+			drawNext = true;
+			count++;
+		} else if (count == flashcard_list.size() - 1) {
+			count = 0;
+		} else {
+			count++;
+		}
 	}
 }
 

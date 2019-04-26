@@ -14,10 +14,9 @@ class ofApp : public ofBaseApp{
 	public:
 
 		ofSoundPlayer mySound;
-		ofFbo fbo;
 
 		bool drawNext = false;
-		int count = -1;
+		int flashcard_list_index = -1;
 		vector<string> flashcard_list = vector<string>();
 
 		void setup();

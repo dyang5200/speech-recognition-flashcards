@@ -9,19 +9,17 @@ void ofApp::setFlashcardList() {
 	flashcard_list.push_back("kim");
 	flashcard_list.push_back("teju");
 	flashcard_list.push_back("zeba");
+
+	flashcard_list.push_back("aahhh");
 }
 
 void ofApp::setup() {
-	//mySound.load("aahhh.wav");
-	//mySound.play();
+	//mySound.load("../aahhh.wav");
+	mySound.load("C:\\Users\\danie\\of_v0.10.1_vs2017_release\\apps\\myApps\\final_project\\graphicsExample\\aahhh.wav");
 
 	setFlashcardList();
 
 	ofBackground(255,255,255);
-	fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA, 8);
-	fbo.begin();
-	ofClear(255, 255, 255, 0);
-	fbo.end();
 }
 
 //--------------------------------------------------------------
@@ -31,12 +29,11 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	fbo.draw(0, 0);
-
 	ofSetHexColor(0xAFEEEE);
 	ofDrawRectangle(100, 125, 800, 500);
 	ofSetHexColor(0x000000);
-	ofDrawBitmapString("INITIALLLL TEXT", 400, 390);
+	ofDrawBitmapString("Welcome to Speech Recognition Flashcards!", 300, 350);
+	ofDrawBitmapString("Press 'd' to go to the next card and 'a' to go to the previous card.", 230, 380);
 	ofDrawTriangle(100, 360, 100, 400, 75, 380);
 	ofDrawTriangle(900, 360, 925, 380, 900, 400);
 
@@ -50,7 +47,7 @@ void ofApp::drawNextCard() {
 	ofSetHexColor(0xAFEEEE);
 	ofDrawRectangle(100, 125, 800, 500);
 	ofSetHexColor(0x000000);
-	ofDrawBitmapString(flashcard_list[count], 400, 390);
+	ofDrawBitmapString(flashcard_list[flashcard_list_index], 450, 390);
 	ofDrawTriangle(100, 360, 100, 400, 75, 380);
 	ofDrawTriangle(900, 360, 925, 380, 900, 400);
 }
@@ -64,14 +61,22 @@ void ofApp::keyPressed(int key) {
 	} else if (key == 'x') {
 		ofSetBackgroundColor(253, 38, 38);
 	} else if (key == 'd') {
-		if (count == -1) {
+		if (flashcard_list_index == -1) {
 			drawNext = true;
-			count++;
-		} else if (count == flashcard_list.size() - 1) {
-			count = 0;
+			flashcard_list_index++;
+		} else if (flashcard_list_index == flashcard_list.size() - 1) {
+			flashcard_list_index = 0;
 		} else {
-			count++;
+			flashcard_list_index++;
 		}
+	} else if (key == 'a') {
+		if (flashcard_list_index == 0) {
+			flashcard_list_index = flashcard_list.size() - 1;
+		} else {
+			flashcard_list_index--;
+		}
+	} else if (key == 'p') {
+		mySound.play();
 	}
 }
 
@@ -111,7 +116,7 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+	
 }
 
 //--------------------------------------------------------------
@@ -127,7 +132,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 ////--------------------------- circles
 ////let's draw a circle:
 //ofSetColor(255,130,0);
-//float radius = 50 + 10 * sin(counter);
+//float radius = 50 + 10 * sin(flashcard_list_indexer);
 //ofFill();		// draw "filled shapes"
 //ofDrawCircle(100,400,radius);
 

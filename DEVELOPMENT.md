@@ -12,4 +12,5 @@ I still need to work on having my app take in audio that the user speaks, instea
 <h2> Week Three </h2>
 During Week Three, I focused on developing the flashcard GUI/graphics. I added the functionality for the GUI to turn red/green based on
 the whether the user's pronunciation was right or wrong. I also added the ability for the GUI to display one flashcard to the next when
-the user hits a key.
+the user hits a key. My flashcards can also play sound, given an audio file, with the correct pronunciation of a word. I'm not sure to what
+extent I will try to implement this extension, but it's a possibility.

@@ -15,6 +15,7 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		
+		void drawNextCard();
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -30,5 +31,7 @@ class ofApp : public ofBaseApp{
 		// variables used in the example
 		float 	counter;
 		bool	bSmooth;
+
+		bool drawNext = false;
 };
 	

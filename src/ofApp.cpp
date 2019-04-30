@@ -23,6 +23,7 @@ void ofApp::setup() {
 	// Set up flashcard GUI application
 	mySound.load(SOUND_PATH);
 	setFlashcardList();
+
 	ofBackground(38, 135, 154);
 
 	// Set up card rectangle
@@ -30,16 +31,6 @@ void ofApp::setup() {
 	card_rect.y = 125;
 	card_rect.width = 800;
 	card_rect.height = 500;
-
-	//gui.setup(); // most of the time you don't need a name
-	//gui.add(filled.setup("fill", true));
-	//gui.add(radius.setup("radius", 140, 10, 300));
-	//gui.add(center.setup("center", ofVec2f(ofGetWidth() * .5, ofGetHeight() * .5), ofVec2f(0, 0), ofVec2f(ofGetWidth(), ofGetHeight())));
-	//gui.add(color.setup("color", ofColor(100, 100, 140), ofColor(0, 0), ofColor(255, 255)));
-	//gui.add(circleResolution.setup("circle res", 5, 3, 90));
-	//gui.add(twoCircles.setup("two circles"));
-	//gui.add(ringButton.setup("ring"));
-	//gui.add(screenSize.setup("screen size", ofToString(ofGetWidth()) + "x" + ofToString(ofGetHeight())));
 
 	// Analyze the user's speech
 	user_speech = speech_analyzer.AnalyzeSpeech(AUDIO_FILEPATH);
@@ -54,30 +45,20 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	drawInstructions();
-
-	// Draw the GUI
-	gui.draw();
-
-	if (draw_next) {
-		drawNextCard();
-		draw_next = false;
-	} else if (draw_instructions) {
+	if (draw_instructions) {
 		drawInstructions();
-		draw_instructions = false;
 	}
-}
+	else {
+		ofClear(255);
+		ofBackground(r_value, g_value, b_value);
+		ofSetHexColor(0xFFFFFF);
+		ofDrawRectRounded(card_rect, 10);
+		ofSetHexColor(0x000000);
+		lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
 
-void ofApp::drawNextCard() {
-	ofClear(255);
-	ofBackground(38, 135, 154);
-	ofSetHexColor(0xFFFFFF);
-	ofDrawRectRounded(card_rect, 10);
-	ofSetHexColor(0x000000);
-	lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
-
-	ofSetHexColor(0xFFFFFF);
-	lato_light.drawString("Press 'i' for instructions", 370, 680);
+		ofSetHexColor(0xFFFFFF);
+		lato_light.drawString(INSTRUCTION_TAG, 370, 680);
+	}
 }
 
 void ofApp::drawInstructions() {
@@ -90,31 +71,41 @@ void ofApp::drawInstructions() {
 
 
 	ofSetHexColor(0xFFFFFF);
-	lato_light.drawString("Press 'i' for instructions", 370, 680);
-	//ofDrawTriangle(100, 360, 100, 400, 75, 380);
-	//ofDrawTriangle(900, 360, 925, 380, 900, 400);
+	lato_light.drawString(INSTRUCTION_TAG, 370, 680);
 }
 
+void ofApp::setBackground(int r_value, int g_value, int b_value) {
+	ofSetBackgroundColor(r_value, g_value, b_value);
+}
+
+void ofApp::resetBackground() {
+	int r_value = R_ORIGINAL;
+	int g_value = G_ORIGINAL;
+	int b_value = B_ORIGINAL;
+}
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
 	// Background turns green if correct, red if incorrect
 	if (key == 'o') {
-		ofSetBackgroundColor(99, 242, 109);
+		r_value = 99;
+		g_value = 242;
+		b_value = 109;
 	} else if (key == 'x') {
-		ofSetBackgroundColor(253, 38, 38);
+		r_value = 253;
+		g_value = 38;
+		b_value = 38;
 	} else if (key == 'd') {
-		if (flashcard_list_index == -1) {
-			draw_next = true;
-			flashcard_list_index++;
-		}
-		else if (flashcard_list_index == flashcard_list.size() - 1) {
+		resetBackground();
+		draw_instructions = false;
+		if (flashcard_list_index == flashcard_list.size() - 1) {
 			flashcard_list_index = 0;
-		}
-		else {
+		} else {
 			flashcard_list_index++;
 		}
 	} else if (key == 'a') {
+		resetBackground();
+		draw_instructions = false;
 		if (flashcard_list_index == 0) {
 			flashcard_list_index = flashcard_list.size() - 1;
 		}
@@ -124,6 +115,7 @@ void ofApp::keyPressed(int key) {
 	} else if (key == 'p') {
 		mySound.play();
 	} else if (key == 'i') {
+		resetBackground();
 		draw_instructions = true;
 	}
 }

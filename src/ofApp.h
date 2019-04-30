@@ -14,6 +14,11 @@
 #define WELCOME_MESSAGE "Welcome to Speech Recognition Flashcards!"
 #define RECORD_INSTRUCTIONS "Press 'r' to begin recording. Press 'e' to end recording."
 #define NAVIG_INSTRUCTIONS "Press 'd' to go to the next card and 'a' to go to the previous card."
+#define INSTRUCTION_TAG "Press 'i' for instructions"
+
+#define R_ORIGINAL 35
+#define G_ORIGINAL 135
+#define B_ORIGINAL 154
 
 using std::vector;
 using std::string;
@@ -26,20 +31,6 @@ class ofApp: public ofBaseApp {
 		// A sound player
 		ofSoundPlayer mySound;
 
-		// Changes to true if we want to draw the next card. False otherwise
-		bool draw_next = false;
-
-		// Changes to true when we want to draw the instructions page.
-		bool draw_instructions = false;
-
-		// Remembers the index of the flashcard list (remembers which flashcard the user is currently on)
-		int flashcard_list_index = -1;
-		// A vector of all the flashcards
-		vector<string> flashcard_list = vector<string>();
-		
-		// The user's speech
-		string user_speech;
-
 		// Flashcard text font
 		ofTrueTypeFont lato_font;
 		// Lighter font
@@ -48,26 +39,31 @@ class ofApp: public ofBaseApp {
 		// Rectangle for flashcard object in GUI
 		ofRectangle card_rect;
 
-		ofxFloatSlider radius;
-		ofxColorSlider color;
-		ofxVec2Slider center;
-		ofxIntSlider circleResolution;
-		ofxToggle filled;
-		ofxButton twoCircles;
-		ofxButton ringButton;
-		ofxLabel screenSize;
+		// Background values
+		int r_value = R_ORIGINAL;
+		int g_value = G_ORIGINAL;
+		int b_value = B_ORIGINAL;
 
-		ofxPanel gui;
+		// True when we want to draw the instructions page, false otherwise
+		bool draw_instructions = true;
 
-		ofSoundPlayer ring;
+		// Remembers the index of the flashcard list (remembers which flashcard the user is currently on)
+		int flashcard_list_index = 0;
+		// A vector of all the flashcards
+		vector<string> flashcard_list = vector<string>();
+		
+		// The user's speech
+		string user_speech;
 
 	public:
 		// Populates the list of flashcards with desired words
 		void setFlashcardList();
-		// Draws the next card in the list of flashcards
-		void drawNextCard();
 		// Draws the instructions page
 		void drawInstructions();
+		// Sets the background of the flashcard app
+		void setBackground(int r_value, int g_value, int b_value);
+		// Resets the background color
+		void resetBackground();
 		// Returns true if the user's pronunciation is correct. False otherwise
 		bool isCorrect();
 

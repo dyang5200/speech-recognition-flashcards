@@ -15,22 +15,24 @@ bool ofApp::isCorrect() {
 	return (user_speech == flashcard_list[flashcard_list_index]);
 }
 
+void ofApp::setupRect() {
+	card_rect.x = RECT_X;
+	card_rect.y = RECT_Y;
+	card_rect.width = WIDTH;
+	card_rect.height = HEIGHT;
+}
+
 void ofApp::setup() {
 	// Load flashcard text fonts
-	lato_font.load(LATO_FONT_PATH, 25);
-	lato_light.load(LATO_LIGHT_PATH, 18);
+	lato_font.load(LATO_FONT_PATH, LATO_SIZE);
+	lato_light.load(LATO_LIGHT_PATH, LATO_LIGHT_SIZE);
 
-	// Set up flashcard GUI application
+	// Load sounds
 	mySound.load(SOUND_PATH);
+
+	// Set up card rectangle and flashcard texts
+	setupRect();
 	setFlashcardList();
-
-	ofBackground(38, 135, 154);
-
-	// Set up card rectangle
-	card_rect.x = 100;
-	card_rect.y = 125;
-	card_rect.width = 800;
-	card_rect.height = 500;
 
 	// Analyze the user's speech
 	user_speech = speech_analyzer.AnalyzeSpeech(AUDIO_FILEPATH);
@@ -47,64 +49,50 @@ void ofApp::update() {
 void ofApp::draw() {
 	if (draw_instructions) {
 		drawInstructions();
-	}
-	else {
-		ofClear(255);
-		ofBackground(r_value, g_value, b_value);
-		ofSetHexColor(0xFFFFFF);
-		ofDrawRectRounded(card_rect, 10);
-		ofSetHexColor(0x000000);
+	} else {
+		ofClear(bg_hex);
+		ofBackgroundHex(bg_hex);
+		ofSetHexColor(WHITE);
+		ofDrawRectRounded(card_rect, RADIUS);
+		ofSetHexColor(BLACK);
 		lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
 
-		ofSetHexColor(0xFFFFFF);
+		ofSetHexColor(WHITE);
 		lato_light.drawString(INSTRUCTION_TAG, 370, 680);
 	}
 }
 
 void ofApp::drawInstructions() {
-	ofSetHexColor(0xFFFFFF);
-	ofDrawRectRounded(card_rect, 10);
-	ofSetHexColor(0x000000);
+	ofBackgroundHex(ORIGINAL_BG);
+	ofSetHexColor(WHITE);
+	ofDrawRectRounded(card_rect, RADIUS);
+	ofSetHexColor(BLACK);
 	lato_font.drawString(WELCOME_MESSAGE, 190, 300);
 	lato_light.drawString(RECORD_INSTRUCTIONS, 220, 400);
 	lato_light.drawString(NAVIG_INSTRUCTIONS, 190, 430);
 
 
-	ofSetHexColor(0xFFFFFF);
+	ofSetHexColor(WHITE);
 	lato_light.drawString(INSTRUCTION_TAG, 370, 680);
-}
-
-void ofApp::setBackground(int r_value, int g_value, int b_value) {
-	ofSetBackgroundColor(r_value, g_value, b_value);
-}
-
-void ofApp::resetBackground() {
-	int r_value = R_ORIGINAL;
-	int g_value = G_ORIGINAL;
-	int b_value = B_ORIGINAL;
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
 	// Background turns green if correct, red if incorrect
 	if (key == 'o') {
-		r_value = 99;
-		g_value = 242;
-		b_value = 109;
+		bg_hex = CORRECT_HEX;
 	} else if (key == 'x') {
-		r_value = 253;
-		g_value = 38;
-		b_value = 38;
-	} else if (key == 'd') {
-		resetBackground();
+		bg_hex = INCORRECT_HEX;
+	} else if (key == NEXT_KEY) {
+		bg_hex = ORIGINAL_BG;
 		draw_instructions = false;
 		if (flashcard_list_index == flashcard_list.size() - 1) {
 			flashcard_list_index = 0;
 		} else {
 			flashcard_list_index++;
 		}
-	} else if (key == 'a') {
-		resetBackground();
+	} else if (key == PREVIOUS_KEY) {
+		bg_hex = ORIGINAL_BG;
 		draw_instructions = false;
 		if (flashcard_list_index == 0) {
 			flashcard_list_index = flashcard_list.size() - 1;
@@ -112,11 +100,11 @@ void ofApp::keyPressed(int key) {
 		else {
 			flashcard_list_index--;
 		}
+	} else if (key == INSTRUCTIONS_KEY) {
+		bg_hex = ORIGINAL_BG;
+		draw_instructions = true;
 	} else if (key == 'p') {
 		mySound.play();
-	} else if (key == 'i') {
-		resetBackground();
-		draw_instructions = true;
 	}
 }
 

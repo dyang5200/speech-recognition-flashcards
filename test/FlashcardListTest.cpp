@@ -1,10 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "../src/FlashcardList.h"
-#include <fstream>
 #include <string>
-
-using std::stringstream;
 using std::string;
 
 FlashcardList flashcard_list;

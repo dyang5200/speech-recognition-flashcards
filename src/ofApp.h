@@ -78,6 +78,9 @@ class ofApp: public ofBaseApp {
 		int play_count = 0;
 
 	public:
+		// Default constructor for testing purposes
+		ofApp() = default;
+
 		// Sets up rectangle
 		void setupRect();
 
@@ -97,7 +100,10 @@ class ofApp: public ofBaseApp {
 		// Checks to see if app should record user speech
 		void checkRecord();
 		// Changes the background to convey whether the user is correct or incorrect
-		void changeBackground(bool correct);
+		int changeBackground(bool correct);
 		// Changes the flashcard when user pressed 'd' or 'a'
-		void changeFlashcard(char key_pressed);
+		int changeFlashcard(char key_pressed);
+
+		// Flashcard_list setter for testing purposes
+		void set_flashcards(vector<string> input_flashcards) { flashcard_list = input_flashcards; }
 	};

@@ -110,7 +110,7 @@ void ofApp::checkRecord() {
 	}
 }
 
-void ofApp::changeBackground(bool correct) {
+int ofApp::changeBackground(bool correct) {
 	// Background turns green if correct, red if incorrect
 	if (correct) {
 		bg_hex = CORRECT_HEX;
@@ -119,9 +119,10 @@ void ofApp::changeBackground(bool correct) {
 	}
 
 	ofBackground(bg_hex);
+	return bg_hex;
 }
 
-void ofApp::changeFlashcard(char key_pressed) {
+int ofApp::changeFlashcard(char key_pressed) {
 	bg_hex = ORIGINAL_BG;
 	draw_instructions = false;
 	record_count = 1;
@@ -139,4 +140,6 @@ void ofApp::changeFlashcard(char key_pressed) {
 			flashcard_list_index--;
 		}
 	}
+
+	return flashcard_list_index;
 }

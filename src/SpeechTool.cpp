@@ -1,4 +1,4 @@
-#include "Speech.h"
+#include "SpeechTool.h"
 
 // Code from: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-cpp-windows
 void SpeechTool::recognizeSpeech() {
@@ -68,6 +68,6 @@ void SpeechTool::synthesizeSpeech(string text) {
 	}
 
 	// This is to give some time for the speaker to finish playing back the audio
-	cout << "Press enter to exit..." << std::endl;
+	cout << "Press enter before moving onto the next flashcard." << std::endl;
 	cin.get();
 }

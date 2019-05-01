@@ -49,7 +49,7 @@ void SpeechTool::synthesizeSpeech(string text) {
 	//cout << "Type some text that you want to speak..." << std::endl;
 	//cout << "> ";
 	//std::string text;
-	getline(cin, text);
+	// getline(cin, text);
 
 	auto result = synthesizer->SpeakTextAsync(text).get();
 

@@ -32,30 +32,15 @@ void ofApp::setupRect() {
 	card_rect.height = HEIGHT;
 }
 
-void ofApp::setup() {
-	string text = "cat";
-	speech_tool.synthesizeSpeech(text);
-	
-	//if (flashcard_list_index == -1) {
-	//	speech_tool.synthesizeSpeech(flashcard_list[0]);
-	//}
-	//else {
-	//	speech_tool.synthesizeSpeech(flashcard_list[flashcard_list_index]);
-	//}
-
+void ofApp::setup() {	
 	// Load flashcard text fonts
 	lato_font.load(LATO_FONT_PATH, LATO_SIZE);
 	lato_light.load(LATO_LIGHT_PATH, LATO_LIGHT_SIZE);
-
-	// Load sounds
-	mySound.load(SOUND_PATH);
+	small_lato_light.load(LATO_LIGHT_PATH, SMALL_LIGHT_SIZE);
 
 	// Set up card rectangle and flashcard texts
 	setupRect();
 	setFlashcardList();
-
-	//// Analyze the user's speech
-	//user_speech = speech_analyzer.AnalyzeSpeech(AUDIO_FILEPATH);
 }
 
 void ofApp::recordAndAnalyze() {
@@ -70,29 +55,23 @@ void ofApp::recordAndAnalyze() {
 }
 
 bool ofApp::isCorrect() {
-	
-	cout << "|" << user_speech << "|" << endl;
-	cout << "|" << flashcard_list[flashcard_list_index] << "|" << endl;
-
 	if (user_speech.length() == 0) {
 		return false;
 	}
-
-	cout << (user_speech == flashcard_list[flashcard_list_index]) << endl;
 	return (user_speech == flashcard_list[flashcard_list_index]);
 }
 
 
 void ofApp::draw() {
+	ofClear(bg_hex);
+	ofBackgroundHex(bg_hex);
+	ofSetHexColor(WHITE);
+	ofDrawRectRounded(card_rect, RADIUS);
+	ofSetHexColor(BLACK);
+
 	if (draw_instructions) {
 		drawInstructions();
 	} else {
-		ofClear(bg_hex);
-		ofBackgroundHex(bg_hex);
-		ofSetHexColor(WHITE);
-		ofDrawRectRounded(card_rect, RADIUS);
-		ofSetHexColor(BLACK);
-
 		if (flashcard_list_index == -1) {
 			lato_font.drawString(flashcard_list[0], 440, 390);
 		} else {
@@ -100,38 +79,48 @@ void ofApp::draw() {
 		}
 
 		ofSetHexColor(WHITE);
-		lato_light.drawString(INSTRUCTION_TAG, 370, 680);
+		lato_light.drawString(INSTRUCTION_TAG, 380, 680);
 
-		//if (count == 2) {
-		//	recordAndAnalyze();
+		checkPlay();
+		checkRecord();
+	}
+}
 
-		//	//if (flashcard_list_index == -1) {
-		//	//	speech_tool.synthesizeSpeech(flashcard_list[0]);
-		//	//} else {
-		//	//	speech_tool.synthesizeSpeech(flashcard_list[flashcard_list_index]);
-		//	//}
+void ofApp::checkPlay() {
+	if (play_count == 2) {
+		if (isCorrect()) {
+			speech_tool.synthesizeSpeech(CORRECT_FEEDBACK);
+		} else {
+			string feedback = INCORRECT_FEEDBACK;
+			if (flashcard_list_index == -1) {
+				feedback += flashcard_list[0];
+			} else {
+				feedback += flashcard_list[flashcard_list_index];
+			}
+			speech_tool.synthesizeSpeech(feedback);
+		}
 
-		//	count = 0;
-		//}
+		play_count = 0;
+	} else if (play_count == 1) {
+		play_count++;
+	}
+}
 
-		//if (count == 1) {
-		//	count++;
-		//}
+void ofApp::checkRecord() {
+	if (record_count == 2) {
+		recordAndAnalyze();
+		record_count = 0;
+		play_count = 1;
+	} else if (record_count == 1) {
+		record_count++;
 	}
 }
 
 void ofApp::drawInstructions() {
-	ofBackgroundHex(ORIGINAL_BG);
-	ofSetHexColor(WHITE);
-	ofDrawRectRounded(card_rect, RADIUS);
-	ofSetHexColor(BLACK);
-	lato_font.drawString(WELCOME_MESSAGE, 190, 300);
-	lato_light.drawString(NAVIG_INSTRUCTIONS, 190, 400);
-	lato_light.drawString(PLAY_SOUND_INSTR, 220, 440);
-
-
-	ofSetHexColor(WHITE);
-	lato_light.drawString(INSTRUCTION_TAG, 370, 680);
+	lato_font.drawString(WELCOME_MESSAGE, 180, 300);
+	lato_light.drawString(IMPROVE_TAG, 280, 410);
+	lato_light.drawString(NAVIG_INSTRUCTIONS, 170, 450);
+	small_lato_light.drawString(COPYRIGHT, 400, 600);
 }
 
 void ofApp::changeBackground(bool correct) {
@@ -141,6 +130,8 @@ void ofApp::changeBackground(bool correct) {
 	} else {
 		bg_hex = INCORRECT_HEX;
 	}
+
+	ofBackground(bg_hex);
 }
 
 void ofApp::keyPressed(int key) {
@@ -152,21 +143,19 @@ void ofApp::keyPressed(int key) {
 		} else {
 			flashcard_list_index++;
 		}
-		count = 1;
+		record_count = 1;
 	} else if (key == PREVIOUS_KEY) {
 		bg_hex = ORIGINAL_BG;
 		draw_instructions = false;
 		if (flashcard_list_index == 0) {
 			flashcard_list_index = flashcard_list.size() - 1;
-		}
-		else {
+		} else {
 			flashcard_list_index--;
 		}
+		record_count = 1;
 	} else if (key == INSTRUCTIONS_KEY) {
 		bg_hex = ORIGINAL_BG;
 		draw_instructions = true;
-	} else if (key == 'p') {
-		mySound.play();
 	}
 }
 

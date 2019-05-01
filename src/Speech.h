@@ -4,7 +4,6 @@
 #define SUBSCRIPTION_KEY "6a80416fd0ca4d35ac24a5bac46ab109"
 #define REGION "centralus"
 
-//using namespace std;
 using namespace Microsoft::CognitiveServices::Speech;
 
 using std::cout;

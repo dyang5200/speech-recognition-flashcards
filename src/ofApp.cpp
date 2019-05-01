@@ -1,30 +1,5 @@
 #include "ofApp.h"
 
-void ofApp::setFlashcardList() {
-	flashcard_list.push_back("patrick");
-	flashcard_list.push_back("joseph");
-	flashcard_list.push_back("cynthia");
-	flashcard_list.push_back("kim");
-	flashcard_list.push_back("teju");
-	flashcard_list.push_back("zeba");
-	flashcard_list.push_back("aahhh");
-
-	formatFlashcardList();
-}
-
-void ofApp::formatFlashcardList() {
-	for (int i = 0; i < flashcard_list.size(); i++) {
-		string first = flashcard_list[i].substr(0, 1);
-		std::transform(first.begin(), first.end(), first.begin(), ::toupper);
-		
-		string rest = flashcard_list[i].substr(1);
-		std::transform(rest.begin(), rest.end(), rest.begin(), ::tolower);
-
-		string edited_text = first + rest;
-		flashcard_list[i] = edited_text;
-	}
-}
-
 void ofApp::setupRect() {
 	card_rect.x = RECT_X;
 	card_rect.y = RECT_Y;
@@ -32,7 +7,7 @@ void ofApp::setupRect() {
 	card_rect.height = HEIGHT;
 }
 
-void ofApp::setup() {	
+void ofApp::setup() {
 	// Load flashcard text fonts
 	lato_font.load(LATO_FONT_PATH, LATO_SIZE);
 	lato_light.load(LATO_LIGHT_PATH, LATO_LIGHT_SIZE);
@@ -40,7 +15,9 @@ void ofApp::setup() {
 
 	// Set up card rectangle and flashcard texts
 	setupRect();
-	setFlashcardList();
+
+	flashcards.promptUser();
+	flashcard_list = flashcards.get_flashcards();
 }
 
 void ofApp::draw() {
@@ -66,8 +43,8 @@ void ofApp::draw() {
 		ofSetHexColor(WHITE);
 		lato_light.drawString(INSTRUCTION_TAG, 380, 680);
 
-		checkPlay();
-		checkRecord();
+		//checkPlay();
+		//checkRecord();
 	}
 }
 

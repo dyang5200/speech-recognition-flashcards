@@ -186,6 +186,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\FlashcardList.cpp" />
     <ClCompile Include="src\Speech.cpp" />
     <ClCompile Include="src\SpeechAnalyzer.cpp" />
     <ClCompile Include="..\..\..\addons\ofxHTTP\libs\ofxHTTP\src\AuthScope.cpp" />
@@ -327,6 +328,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\FlashcardList.h" />
     <ClInclude Include="src\Speech.h" />
     <ClInclude Include="src\SpeechAnalyzer.h" />
     <ClInclude Include="..\..\..\addons\ofxHTTP\src\ofxHTTP.h" />

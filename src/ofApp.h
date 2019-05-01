@@ -6,6 +6,7 @@
 #include <string>
 #include <algorithm>
 #include "Speech.h"
+#include "FlashcardList.h"
 
 // File paths and fonts
 #define AUDIO_FILEPATH "C:\\Users\\danie\\Downloads\\preamble10.wav"
@@ -67,10 +68,12 @@ class ofApp: public ofBaseApp {
 		// True when we want to draw the instructions page, false otherwise
 		bool draw_instructions = true;
 
+		// A FlashcardList object containing a vector of all the flashcards
+		FlashcardList flashcards;
+		// Vector of all the flashcards
+		vector<string> flashcard_list = vector<string>();
 		// Remembers the index of the flashcard list (remembers which flashcard the user is currently on)
 		int flashcard_list_index = -1;
-		// A vector of all the flashcards
-		vector<string> flashcard_list = vector<string>();
 		
 		// The user's speech
 		string user_speech;
@@ -81,10 +84,6 @@ class ofApp: public ofBaseApp {
 		int play_count = 0;
 
 	public:
-		// Populates the list of flashcards with desired words
-		void setFlashcardList();
-		// Formats the text in flashcard list so the first letter is capitalized
-		void formatFlashcardList();
 		// Sets up rectangle
 		void setupRect();
 

@@ -1,7 +1,7 @@
 #include "Speech.h"
 
 // Code from: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-cpp-windows
-void Speech::recognizeSpeech() {
+void SpeechTool::recognizeSpeech() {
 	// Creates an instance of a speech config with specified subscription key and service region.
 	// Replace with your own subscription key and service region (e.g., "westus").
 	auto config = SpeechConfig::FromSubscription(SUBSCRIPTION_KEY, REGION);
@@ -18,6 +18,7 @@ void Speech::recognizeSpeech() {
 	// For long-running multi-utterance recognition, use StartContinuousRecognitionAsync() instead.
 	auto result = recognizer->RecognizeOnceAsync().get();
 	recognized_speech = result->Text;
+	recognized_speech = recognized_speech.substr(0, recognized_speech.length() - 1);
 
 	// Checks result.
 	if (result->Reason == ResultReason::RecognizedSpeech) {
@@ -34,4 +35,39 @@ void Speech::recognizeSpeech() {
 			cout << "CANCELED: Did you update the subscription info?" << std::endl;
 		}
 	}
+}
+
+// Code from https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-text-to-speech-cpp-windows
+void SpeechTool::synthesizeSpeech(string text) {
+	// Creates an instance of a speech config with specified subscription key and service region.
+	auto config = SpeechConfig::FromSubscription(SUBSCRIPTION_KEY, REGION);
+
+	// Creates a speech synthesizer using spaker as audio output. The default spoken language is "en-us".
+	auto synthesizer = SpeechSynthesizer::FromConfig(config);
+
+	// Receive a text from console input and synthesize it to speaker.
+	//cout << "Type some text that you want to speak..." << std::endl;
+	//cout << "> ";
+	//std::string text;
+	getline(cin, text);
+
+	auto result = synthesizer->SpeakTextAsync(text).get();
+
+	// Checks result.
+	if (result->Reason == ResultReason::SynthesizingAudioCompleted) {
+		cout << "Speech synthesized to speaker for text [" << text << "]" << std::endl;
+	} else if (result->Reason == ResultReason::Canceled) {
+		auto cancellation = SpeechSynthesisCancellationDetails::FromResult(result);
+		cout << "CANCELED: Reason=" << (int)cancellation->Reason << std::endl;
+
+		if (cancellation->Reason == CancellationReason::Error) {
+			cout << "CANCELED: ErrorCode=" << (int)cancellation->ErrorCode << std::endl;
+			cout << "CANCELED: ErrorDetails=[" << cancellation->ErrorDetails << "]" << std::endl;
+			cout << "CANCELED: Did you update the subscription info?" << std::endl;
+		}
+	}
+
+	// This is to give some time for the speaker to finish playing back the audio
+	cout << "Press enter to exit..." << std::endl;
+	cin.get();
 }

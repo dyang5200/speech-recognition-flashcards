@@ -10,16 +10,21 @@ using namespace Microsoft::CognitiveServices::Speech;
 using std::cout;
 using std::endl;
 using std::string;
+using std::getline;
+using std::cin;
 
-class Speech {
+class SpeechTool {
 	private:
 		string recognized_speech;
 
 	public:
 		// Default constructor
-		Speech() = default;
+		SpeechTool() = default;
 
+		// Recognizes speech, speech to text
 		void recognizeSpeech();
+		// Repeats back correct pronuciation, text to speech
+		void synthesizeSpeech(string text);
 
 		string get_recognized_speech() { return recognized_speech; };
 };

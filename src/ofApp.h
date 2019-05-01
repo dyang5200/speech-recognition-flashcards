@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include "SpeechAnalyzer.h"
 #include "Speech.h"
 
@@ -17,8 +18,8 @@
 
 // Strings that are displayed in the UI
 #define WELCOME_MESSAGE "Welcome to Speech Recognition Flashcards!"
-#define RECORD_INSTRUCTIONS "Press 'r' to begin recording. Press 'e' to end recording."
 #define NAVIG_INSTRUCTIONS "Press 'd' to go to the next card and 'a' to go to the previous card."
+#define PLAY_SOUND_INSTR "Press the spacebar to play the correct pronunciation."
 #define INSTRUCTION_TAG "Press 'i' for instructions"
 
 // Hexadecimal color codes
@@ -48,7 +49,7 @@ using std::string;
 class ofApp: public ofBaseApp {
 	private:
 		// Speech recognizer
-		Speech speech_recognizer;
+		SpeechTool speech_tool;
 		// A sound player
 		ofSoundPlayer mySound;
 
@@ -74,9 +75,14 @@ class ofApp: public ofBaseApp {
 		// The user's speech
 		string user_speech;
 
+		// Helps draw new slide before running recordAndAnalyze()
+		int count = 0;
+
 	public:
 		// Populates the list of flashcards with desired words
 		void setFlashcardList();
+		// Formats the text in flashcard list so the first letter is capitalized
+		void formatFlashcardList();
 		// Sets up rectangle
 		void setupRect();
 		// Draws the instructions page

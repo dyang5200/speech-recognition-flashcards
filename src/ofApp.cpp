@@ -7,8 +7,22 @@ void ofApp::setFlashcardList() {
 	flashcard_list.push_back("kim");
 	flashcard_list.push_back("teju");
 	flashcard_list.push_back("zeba");
-
 	flashcard_list.push_back("aahhh");
+
+	formatFlashcardList();
+}
+
+void ofApp::formatFlashcardList() {
+	for (int i = 0; i < flashcard_list.size(); i++) {
+		string first = flashcard_list[i].substr(0, 1);
+		std::transform(first.begin(), first.end(), first.begin(), ::toupper);
+		
+		string rest = flashcard_list[i].substr(1);
+		std::transform(rest.begin(), rest.end(), rest.begin(), ::tolower);
+
+		string edited_text = first + rest;
+		flashcard_list[i] = edited_text;
+	}
 }
 
 void ofApp::setupRect() {
@@ -36,16 +50,25 @@ void ofApp::setup() {
 
 void ofApp::recordAndAnalyze() {
 	// Set up speech recognizer
-	speech_recognizer.recognizeSpeech();
+	speech_tool.recognizeSpeech();
 
 	// Analyzer user's speech
-	user_speech = speech_recognizer.get_recognized_speech();
+	user_speech = speech_tool.get_recognized_speech();
 	cout << "User's Speech: " << user_speech << endl;
 
 	changeBackground(isCorrect());
 }
 
 bool ofApp::isCorrect() {
+	
+	cout << "|" << user_speech << "|" << endl;
+	cout << "|" << flashcard_list[flashcard_list_index] << "|" << endl;
+
+	if (user_speech.length() == 0) {
+		return false;
+	}
+
+	cout << (user_speech == flashcard_list[flashcard_list_index]) << endl;
 	return (user_speech == flashcard_list[flashcard_list_index]);
 }
 
@@ -62,13 +85,28 @@ void ofApp::draw() {
 
 		if (flashcard_list_index == -1) {
 			lato_font.drawString(flashcard_list[0], 440, 390);
-		}
-		else {
+		} else {
 			lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
 		}
 
 		ofSetHexColor(WHITE);
 		lato_light.drawString(INSTRUCTION_TAG, 370, 680);
+
+		if (count == 2) {
+			recordAndAnalyze();
+			count = 0;
+		}
+
+		if (count == 1) {
+			count++;
+		}
+
+		//if (flashcard_list_index == -1) {
+		//	speech_tool.synthesizeSpeech(flashcard_list[0]);
+		//}
+		//else {
+		//	speech_tool.synthesizeSpeech(flashcard_list[flashcard_list_index]);
+		//}
 	}
 }
 
@@ -78,8 +116,8 @@ void ofApp::drawInstructions() {
 	ofDrawRectRounded(card_rect, RADIUS);
 	ofSetHexColor(BLACK);
 	lato_font.drawString(WELCOME_MESSAGE, 190, 300);
-	lato_light.drawString(RECORD_INSTRUCTIONS, 220, 400);
-	lato_light.drawString(NAVIG_INSTRUCTIONS, 190, 430);
+	lato_light.drawString(NAVIG_INSTRUCTIONS, 190, 400);
+	lato_light.drawString(PLAY_SOUND_INSTR, 220, 440);
 
 
 	ofSetHexColor(WHITE);
@@ -90,8 +128,9 @@ void ofApp::changeBackground(bool correct) {
 	// Background turns green if correct, red if incorrect
 	if (correct) {
 		bg_hex = CORRECT_HEX;
+	} else {
+		bg_hex = INCORRECT_HEX;
 	}
-	bg_hex = INCORRECT_HEX;
 }
 
 void ofApp::keyPressed(int key) {
@@ -103,7 +142,7 @@ void ofApp::keyPressed(int key) {
 		} else {
 			flashcard_list_index++;
 		}
-		//recordAndAnalyze();
+		count = 1;
 	} else if (key == PREVIOUS_KEY) {
 		bg_hex = ORIGINAL_BG;
 		draw_instructions = false;
@@ -122,5 +161,5 @@ void ofApp::keyPressed(int key) {
 }
 
 void ofApp::update() {
-
+	
 }

@@ -1,4 +1,3 @@
-ofxGui
 ofxHTTP
 ofxIO
 ofxJSON

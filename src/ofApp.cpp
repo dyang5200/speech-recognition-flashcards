@@ -23,6 +23,9 @@ void ofApp::setupRect() {
 }
 
 void ofApp::setup() {
+	// Set up speech recognizer
+	speech_recognizer.recognizeSpeech();
+
 	// Load flashcard text fonts
 	lato_font.load(LATO_FONT_PATH, LATO_SIZE);
 	lato_light.load(LATO_LIGHT_PATH, LATO_LIGHT_SIZE);
@@ -106,53 +109,4 @@ void ofApp::keyPressed(int key) {
 	} else if (key == 'p') {
 		mySound.play();
 	}
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) {
-
 }

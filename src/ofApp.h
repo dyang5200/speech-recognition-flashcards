@@ -1,12 +1,11 @@
 #pragma once
 #include "ofMain.h"
 #include <stdio.h>
+#include <iostream>
 #include <vector>
 #include <string>
 #include "SpeechAnalyzer.h"
 #include "Speech.h"
-
-#include <iostream>
 
 // File paths and fonts
 #define AUDIO_FILEPATH "C:\\Users\\danie\\Downloads\\preamble10.wav"
@@ -48,9 +47,6 @@ using std::string;
 // Class the models the Speech Flashcards application (GUI)
 class ofApp: public ofBaseApp {
 	private:
-		// A speech analyzer
-		SpeechAnalyzer speech_analyzer;
-
 		// Speech recognizer
 		Speech speech_recognizer;
 		// A sound player
@@ -71,7 +67,7 @@ class ofApp: public ofBaseApp {
 		bool draw_instructions = true;
 
 		// Remembers the index of the flashcard list (remembers which flashcard the user is currently on)
-		int flashcard_list_index = 0;
+		int flashcard_list_index = -1;
 		// A vector of all the flashcards
 		vector<string> flashcard_list = vector<string>();
 		
@@ -85,8 +81,12 @@ class ofApp: public ofBaseApp {
 		void setupRect();
 		// Draws the instructions page
 		void drawInstructions();
+		// Record and analyze user's speech
+		void recordAndAnalyze();
 		// Returns true if the user's pronunciation is correct. False otherwise
 		bool isCorrect();
+		// Changes the background to convey whether the user is correct or incorrect
+		void changeBackground(bool correct);
 
 		void setup();
 		void update();

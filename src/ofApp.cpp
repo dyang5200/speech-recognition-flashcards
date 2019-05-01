@@ -11,10 +11,6 @@ void ofApp::setFlashcardList() {
 	flashcard_list.push_back("aahhh");
 }
 
-bool ofApp::isCorrect() {
-	return (user_speech == flashcard_list[flashcard_list_index]);
-}
-
 void ofApp::setupRect() {
 	card_rect.x = RECT_X;
 	card_rect.y = RECT_Y;
@@ -23,9 +19,6 @@ void ofApp::setupRect() {
 }
 
 void ofApp::setup() {
-	// Set up speech recognizer
-	speech_recognizer.recognizeSpeech();
-
 	// Load flashcard text fonts
 	lato_font.load(LATO_FONT_PATH, LATO_SIZE);
 	lato_light.load(LATO_LIGHT_PATH, LATO_LIGHT_SIZE);
@@ -37,18 +30,26 @@ void ofApp::setup() {
 	setupRect();
 	setFlashcardList();
 
-	// Analyze the user's speech
-	user_speech = speech_analyzer.AnalyzeSpeech(AUDIO_FILEPATH);
+	//// Analyze the user's speech
+	//user_speech = speech_analyzer.AnalyzeSpeech(AUDIO_FILEPATH);
+}
 
+void ofApp::recordAndAnalyze() {
+	// Set up speech recognizer
+	speech_recognizer.recognizeSpeech();
+
+	// Analyzer user's speech
+	user_speech = speech_recognizer.get_recognized_speech();
 	cout << "User's Speech: " << user_speech << endl;
+
+	changeBackground(isCorrect());
 }
 
-//--------------------------------------------------------------
-void ofApp::update() {
-
+bool ofApp::isCorrect() {
+	return (user_speech == flashcard_list[flashcard_list_index]);
 }
 
-//--------------------------------------------------------------
+
 void ofApp::draw() {
 	if (draw_instructions) {
 		drawInstructions();
@@ -58,7 +59,13 @@ void ofApp::draw() {
 		ofSetHexColor(WHITE);
 		ofDrawRectRounded(card_rect, RADIUS);
 		ofSetHexColor(BLACK);
-		lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
+
+		if (flashcard_list_index == -1) {
+			lato_font.drawString(flashcard_list[0], 440, 390);
+		}
+		else {
+			lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
+		}
 
 		ofSetHexColor(WHITE);
 		lato_light.drawString(INSTRUCTION_TAG, 370, 680);
@@ -79,14 +86,16 @@ void ofApp::drawInstructions() {
 	lato_light.drawString(INSTRUCTION_TAG, 370, 680);
 }
 
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
+void ofApp::changeBackground(bool correct) {
 	// Background turns green if correct, red if incorrect
-	if (key == 'o') {
+	if (correct) {
 		bg_hex = CORRECT_HEX;
-	} else if (key == 'x') {
-		bg_hex = INCORRECT_HEX;
-	} else if (key == NEXT_KEY) {
+	}
+	bg_hex = INCORRECT_HEX;
+}
+
+void ofApp::keyPressed(int key) {
+	if (key == NEXT_KEY) {
 		bg_hex = ORIGINAL_BG;
 		draw_instructions = false;
 		if (flashcard_list_index == flashcard_list.size() - 1) {
@@ -94,6 +103,7 @@ void ofApp::keyPressed(int key) {
 		} else {
 			flashcard_list_index++;
 		}
+		//recordAndAnalyze();
 	} else if (key == PREVIOUS_KEY) {
 		bg_hex = ORIGINAL_BG;
 		draw_instructions = false;
@@ -109,4 +119,8 @@ void ofApp::keyPressed(int key) {
 	} else if (key == 'p') {
 		mySound.play();
 	}
+}
+
+void ofApp::update() {
+
 }

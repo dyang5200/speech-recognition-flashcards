@@ -33,6 +33,16 @@ void ofApp::setupRect() {
 }
 
 void ofApp::setup() {
+	string text = "cat";
+	speech_tool.synthesizeSpeech(text);
+	
+	//if (flashcard_list_index == -1) {
+	//	speech_tool.synthesizeSpeech(flashcard_list[0]);
+	//}
+	//else {
+	//	speech_tool.synthesizeSpeech(flashcard_list[flashcard_list_index]);
+	//}
+
 	// Load flashcard text fonts
 	lato_font.load(LATO_FONT_PATH, LATO_SIZE);
 	lato_light.load(LATO_LIGHT_PATH, LATO_LIGHT_SIZE);
@@ -92,20 +102,20 @@ void ofApp::draw() {
 		ofSetHexColor(WHITE);
 		lato_light.drawString(INSTRUCTION_TAG, 370, 680);
 
-		if (count == 2) {
-			recordAndAnalyze();
-			count = 0;
-		}
+		//if (count == 2) {
+		//	recordAndAnalyze();
 
-		if (count == 1) {
-			count++;
-		}
+		//	//if (flashcard_list_index == -1) {
+		//	//	speech_tool.synthesizeSpeech(flashcard_list[0]);
+		//	//} else {
+		//	//	speech_tool.synthesizeSpeech(flashcard_list[flashcard_list_index]);
+		//	//}
 
-		//if (flashcard_list_index == -1) {
-		//	speech_tool.synthesizeSpeech(flashcard_list[0]);
+		//	count = 0;
 		//}
-		//else {
-		//	speech_tool.synthesizeSpeech(flashcard_list[flashcard_list_index]);
+
+		//if (count == 1) {
+		//	count++;
 		//}
 	}
 }

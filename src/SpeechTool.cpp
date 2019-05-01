@@ -8,7 +8,7 @@ void SpeechTool::recognizeSpeech() {
 
 	// Creates a speech recognizer.
 	auto recognizer = SpeechRecognizer::FromConfig(config);
-	cout << "Say something...\n";
+	cout << "Pronounce the word on the flashcard:\n";
 
 	// Starts speech recognition, and returns after a single utterance is recognized. The end of a
 	// single utterance is determined by listening for silence at the end or until a maximum of 15
@@ -22,7 +22,7 @@ void SpeechTool::recognizeSpeech() {
 
 	// Checks result.
 	if (result->Reason == ResultReason::RecognizedSpeech) {
-		cout << "We recognized: " << recognized_speech << std::endl;
+		// cout << "We recognized: " << recognized_speech << std::endl;
 	} else if (result->Reason == ResultReason::NoMatch) {
 		cout << "NOMATCH: Speech could not be recognized." << std::endl;
 	} else if (result->Reason == ResultReason::Canceled) {
@@ -55,7 +55,7 @@ void SpeechTool::synthesizeSpeech(string text) {
 
 	// Checks result.
 	if (result->Reason == ResultReason::SynthesizingAudioCompleted) {
-		cout << "Speech synthesized to speaker for text [" << text << "]" << std::endl;
+		// cout << "Speech synthesized to speaker for text [" << text << "]" << std::endl;
 	} else if (result->Reason == ResultReason::Canceled) {
 		auto cancellation = SpeechSynthesisCancellationDetails::FromResult(result);
 		cout << "CANCELED: Reason=" << (int)cancellation->Reason << std::endl;

@@ -14,6 +14,7 @@ void FlashcardList::setFlashcards() {
 
 	// Stops current console run and begins speech-to-text and text-to-speech console run.
 	cin.get();
+	cout << "\nBegin Practicing!" << endl;
 	formatFlashcardList();
 }
 

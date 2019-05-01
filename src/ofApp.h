@@ -77,7 +77,7 @@ class ofApp: public ofBaseApp {
 
 		// Helps draw new slide before running recordAndAnalyze()
 		int record_count = 0;
-		// Helps play the correct pronunciation
+		// Helps change background color before playing correct pronunciation
 		int play_count = 0;
 
 	public:
@@ -88,23 +88,23 @@ class ofApp: public ofBaseApp {
 		// Sets up rectangle
 		void setupRect();
 
+		// Openframeworks functions
+		void setup();
+		void draw();
+		void keyPressed(int key);
+
 		// Draws the instructions page
 		void drawInstructions();
 		// Record and analyze user's speech
 		void recordAndAnalyze();
+		// Returns true if the user's pronunciation is correct. False otherwise
+		bool isCorrect();
 		// Checks to see if app should play audio of correct pronunciation
 		void checkPlay();
 		// Checks to see if app should record user speech
 		void checkRecord();
-		// Returns true if the user's pronunciation is correct. False otherwise
-		bool isCorrect();
 		// Changes the background to convey whether the user is correct or incorrect
 		void changeBackground(bool correct);
-
-
-		// Openframeworks functions
-		void setup();
-		void update();
-		void draw();
-		void keyPressed(int key);
+		// Changes the flashcard when user pressed 'd' or 'a'
+		void changeFlashcard(char key_pressed);
 	};

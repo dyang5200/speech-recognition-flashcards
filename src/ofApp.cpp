@@ -43,6 +43,51 @@ void ofApp::setup() {
 	setFlashcardList();
 }
 
+void ofApp::draw() {
+	// Draws flashcard UI
+	ofClear(bg_hex);
+	ofBackgroundHex(bg_hex);
+	ofSetHexColor(WHITE);
+	ofDrawRectRounded(card_rect, RADIUS);
+	ofSetHexColor(BLACK);
+
+	// Draws text inside flashcard
+	if (draw_instructions) {
+		drawInstructions();
+	}
+	else {
+		if (flashcard_list_index == -1) {
+			lato_font.drawString(flashcard_list[0], 440, 390);
+		}
+		else {
+			lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
+		}
+
+		ofSetHexColor(WHITE);
+		lato_light.drawString(INSTRUCTION_TAG, 380, 680);
+
+		checkPlay();
+		checkRecord();
+	}
+}
+
+void ofApp::keyPressed(int key) {
+	if (key == NEXT_KEY || key == PREVIOUS_KEY) {
+		changeFlashcard(key);
+	}
+	else if (key == INSTRUCTIONS_KEY) {
+		bg_hex = ORIGINAL_BG;
+		draw_instructions = true;
+	}
+}
+
+void ofApp::drawInstructions() {
+	lato_font.drawString(WELCOME_MESSAGE, 180, 300);
+	lato_light.drawString(IMPROVE_TAG, 280, 410);
+	lato_light.drawString(NAVIG_INSTRUCTIONS, 170, 450);
+	small_lato_light.drawString(COPYRIGHT, 400, 600);
+}
+
 void ofApp::recordAndAnalyze() {
 	// Set up speech recognizer
 	speech_tool.recognizeSpeech();
@@ -61,32 +106,10 @@ bool ofApp::isCorrect() {
 	return (user_speech == flashcard_list[flashcard_list_index]);
 }
 
-
-void ofApp::draw() {
-	ofClear(bg_hex);
-	ofBackgroundHex(bg_hex);
-	ofSetHexColor(WHITE);
-	ofDrawRectRounded(card_rect, RADIUS);
-	ofSetHexColor(BLACK);
-
-	if (draw_instructions) {
-		drawInstructions();
-	} else {
-		if (flashcard_list_index == -1) {
-			lato_font.drawString(flashcard_list[0], 440, 390);
-		} else {
-			lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
-		}
-
-		ofSetHexColor(WHITE);
-		lato_light.drawString(INSTRUCTION_TAG, 380, 680);
-
-		checkPlay();
-		checkRecord();
-	}
-}
-
 void ofApp::checkPlay() {
+	// Sets play_count to 0 after audio plays, and only increments play_count when play_count == 1
+	// Only sets play_count = 1 in checkRecord(), 
+	// which ensures feedback audio is played exactly once after user speaks.
 	if (play_count == 2) {
 		if (isCorrect()) {
 			speech_tool.synthesizeSpeech(CORRECT_FEEDBACK);
@@ -116,13 +139,6 @@ void ofApp::checkRecord() {
 	}
 }
 
-void ofApp::drawInstructions() {
-	lato_font.drawString(WELCOME_MESSAGE, 180, 300);
-	lato_light.drawString(IMPROVE_TAG, 280, 410);
-	lato_light.drawString(NAVIG_INSTRUCTIONS, 170, 450);
-	small_lato_light.drawString(COPYRIGHT, 400, 600);
-}
-
 void ofApp::changeBackground(bool correct) {
 	// Background turns green if correct, red if incorrect
 	if (correct) {
@@ -134,31 +150,22 @@ void ofApp::changeBackground(bool correct) {
 	ofBackground(bg_hex);
 }
 
-void ofApp::keyPressed(int key) {
-	if (key == NEXT_KEY) {
-		bg_hex = ORIGINAL_BG;
-		draw_instructions = false;
+void ofApp::changeFlashcard(char key_pressed) {
+	bg_hex = ORIGINAL_BG;
+	draw_instructions = false;
+	record_count = 1;
+
+	if (key_pressed == NEXT_KEY) {
 		if (flashcard_list_index == flashcard_list.size() - 1) {
 			flashcard_list_index = 0;
 		} else {
 			flashcard_list_index++;
 		}
-		record_count = 1;
-	} else if (key == PREVIOUS_KEY) {
-		bg_hex = ORIGINAL_BG;
-		draw_instructions = false;
+	} else {
 		if (flashcard_list_index == 0) {
 			flashcard_list_index = flashcard_list.size() - 1;
 		} else {
 			flashcard_list_index--;
 		}
-		record_count = 1;
-	} else if (key == INSTRUCTIONS_KEY) {
-		bg_hex = ORIGINAL_BG;
-		draw_instructions = true;
 	}
-}
-
-void ofApp::update() {
-	
 }

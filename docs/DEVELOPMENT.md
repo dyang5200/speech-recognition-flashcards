@@ -14,3 +14,7 @@ During Week Three, I focused on developing the flashcard GUI/graphics. I added t
 the whether the user's pronunciation was right or wrong. I also added the ability for the GUI to display one flashcard to the next when
 the user hits a key. My flashcards can also play sound, given an audio file, with the correct pronunciation of a word. I'm not sure to what
 extent I will try to implement this extension, but it's a possibility.
+
+<h2> Week Four </h2>
+I finished my project during Week 4. I struggled intensely to find a library that allowed me to record audio and save it as a WAV file (so I can import the WAV file into the curl code I wrote last week). As a result, I switched from the curl code to a Microsoft Speech-to-Text API: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-cpp-windows.
+This API proved to be much easier to use than curl, so I even had time to incorporate the similar Text-to-Speech API: https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-text-to-speech-cpp-windows that allowed my application to repeat back the correct pronunciation of a word after the user incorrectly pronounces it. In addition, I also vastly improved the aesthetics of the GUI/UI to be more user-friendly. Finally, I wrote tests and polished up my coding style.

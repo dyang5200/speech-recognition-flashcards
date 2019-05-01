@@ -8,15 +8,14 @@ void ofApp::setupRect() {
 }
 
 void ofApp::setup() {
-	// Load flashcard text fonts
+	// Load flashcard text fonts and flashcard display
 	lato_font.load(LATO_FONT_PATH, LATO_SIZE);
 	lato_light.load(LATO_LIGHT_PATH, LATO_LIGHT_SIZE);
 	small_lato_light.load(LATO_LIGHT_PATH, SMALL_LIGHT_SIZE);
-
-	// Set up card rectangle and flashcard texts
 	setupRect();
 
-	flashcards.promptUser();
+	// Prompt user and set up flashcards
+	flashcards.setFlashcards();
 	flashcard_list = flashcards.get_flashcards();
 }
 
@@ -31,28 +30,25 @@ void ofApp::draw() {
 	// Draws text inside flashcard
 	if (draw_instructions) {
 		drawInstructions();
-	}
-	else {
+	} else {
 		if (flashcard_list_index == -1) {
 			lato_font.drawString(flashcard_list[0], 440, 390);
-		}
-		else {
+		} else {
 			lato_font.drawString(flashcard_list[flashcard_list_index], 440, 390);
 		}
-
 		ofSetHexColor(WHITE);
 		lato_light.drawString(INSTRUCTION_TAG, 380, 680);
 
-		//checkPlay();
-		//checkRecord();
+		// Records and plays audio
+		checkPlay();
+		checkRecord();
 	}
 }
 
 void ofApp::keyPressed(int key) {
 	if (key == NEXT_KEY || key == PREVIOUS_KEY) {
 		changeFlashcard(key);
-	}
-	else if (key == INSTRUCTIONS_KEY) {
+	} else if (key == INSTRUCTIONS_KEY) {
 		bg_hex = ORIGINAL_BG;
 		draw_instructions = true;
 	}
@@ -71,7 +67,6 @@ void ofApp::recordAndAnalyze() {
 
 	// Analyzer user's speech
 	user_speech = speech_tool.get_recognized_speech();
-	cout << "User's Speech: " << user_speech << endl;
 
 	changeBackground(isCorrect());
 }
@@ -99,7 +94,6 @@ void ofApp::checkPlay() {
 			}
 			speech_tool.synthesizeSpeech(feedback);
 		}
-
 		play_count = 0;
 	} else if (play_count == 1) {
 		play_count++;

@@ -4,6 +4,9 @@
 #include <string>
 #include <algorithm>
 
+#define	QUIT_KEY "q"
+#define PROMPT "List all the words/phrases you want to practice with.\nPress enter after each flashcard and press 'q' when finished: "
+
 using std::vector;
 using std::string;
 using std::cout;
@@ -16,9 +19,7 @@ class FlashcardList {
 
     public:
 		// Prompts user for the list of flashcards they want to practice with.
-		void promptUser();
-		// Populates the list of flashcards with desired words
-		void setFlashcardList();
+		void setFlashcards();
 		// Formats the text in flashcard list so the first letter is capitalized
 		void formatFlashcardList();
 

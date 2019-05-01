@@ -1,11 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include <stdio.h>
-#include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include "Speech.h"
+#include "SpeechTool.h"
 #include "FlashcardList.h"
 
 // File paths and fonts
@@ -45,8 +41,6 @@
 #define RADIUS 10
 
 using namespace Microsoft::CognitiveServices::Speech;
-using std::vector;
-using std::string;
 
 // Class the models the Speech Flashcards application (GUI)
 class ofApp: public ofBaseApp {

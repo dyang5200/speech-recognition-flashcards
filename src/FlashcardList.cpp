@@ -1,26 +1,19 @@
 #include "FlashcardList.h"
 
-void FlashcardList::promptUser() {
+void FlashcardList::setFlashcards() {
 	string flashcard_text;
 
-	while (flashcard_text != "q") {
-		cout << "List all the words/phrases you want to practice with.\nPress enter after each flashcard and press 'q' when finished: " << endl;
+	while (flashcard_text != QUIT_KEY) {
+		cout << PROMPT << endl;
 		cin >> flashcard_text;
-		flashcard_list.push_back(flashcard_text);
+		
+		if (flashcard_text != QUIT_KEY) {
+			flashcard_list.push_back(flashcard_text);
+		}
 	}
 
-	formatFlashcardList();
-}
-
-void FlashcardList::setFlashcardList() {
-	//flashcard_list.push_back("patrick");
-	//flashcard_list.push_back("joseph");
-	//flashcard_list.push_back("cynthia");
-	//flashcard_list.push_back("kim");
-	//flashcard_list.push_back("teju");
-	//flashcard_list.push_back("zeba");
-	//flashcard_list.push_back("aahhh");
-
+	// Stops current console run and begins speech-to-text and text-to-speech console run.
+	cin.get();
 	formatFlashcardList();
 }
 

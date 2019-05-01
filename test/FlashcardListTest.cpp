@@ -1,18 +1,42 @@
-#pragma once
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-//#include "C:\Users\danie\of_v0.10.1_vs2017_release\libs\openFrameworks\ofMain.h"
-#include "../final_project/src/SpeechAnalyzer.h"
+#include "../src/FlashcardList.h"
 #include <fstream>
 #include <string>
 using std::ifstream;
 using std::string;
 
-SpeechAnalyzer speech_analyzer;
+FlashcardList flashcard_list;
 
-TEST_CASE("Test Working") {
-	REQUIRE(1 == 1);
+// ------------------------- FORMATFLASHCARDLIST() TESTS ------------------------------
+
+TEST_CASE("Test FormatFlashcardList(): Empty vector") {
+	vector<string> flashcards = vector<string>();
+	flashcard_list.set_flashcards(flashcards);
+	flashcard_list.formatFlashcardList();
+	REQUIRE(flashcard_list.get_flashcards().size() == 0);
 }
+
+TEST_CASE("Test FormatFlashcardList(): Non-empty Vector, Correct Size") {
+	vector<string> flashcards = vector<string>();
+	flashcards.push_back("first");
+	flashcards.push_back("second");
+	flashcard_list.set_flashcards(flashcards);
+	flashcard_list.formatFlashcardList();
+	REQUIRE(flashcard_list.get_flashcards().size() == 2);
+}
+
+TEST_CASE("Test FormatFlashcardList(): Correct Formatting") {
+	vector<string> flashcards = vector<string>();
+	flashcards.push_back("first");
+	flashcards.push_back("second");
+	flashcard_list.set_flashcards(flashcards);
+	flashcard_list.formatFlashcardList();
+	REQUIRE(flashcard_list.get_flashcards()[0] == "First");
+	REQUIRE(flashcard_list.get_flashcards()[1] == "Second");
+}
+
+
 
 //TEST_CASE("Tests ReadFile Valid File") {
 //	ifstream input_file("C:\\Users\\danie\\Downloads\\gettysburg.wav", ios::binary);

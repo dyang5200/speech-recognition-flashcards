@@ -24,4 +24,6 @@ class FlashcardList {
 		void formatFlashcardList();
 
         vector<string> get_flashcards() { return flashcard_list; }
+
+        void set_flashcards(vector<string> input_flashcards) { flashcard_list = input_flashcards; }
 };
